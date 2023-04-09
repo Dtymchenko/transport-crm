@@ -1,18 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, removeUser, setMenuOpen } from "./redux/slices/mainSlice";
+import { removeUser } from "./redux/slices/mainSlice";
+import Menu from "./Menu";
 
 const Header = () => {
+  const [email, setEmail] = React.useState(null);
+
   const dispatch = useDispatch();
 
+  const getEmail = useSelector((state) => state.main?.email);
+
   React.useEffect(() => {
-    dispatch(getUser());
-  }, []);
-  const email = useSelector((state) => state.main.email);
+    setEmail(getEmail);
+  }, [getEmail]);
 
   return (
     <header className="d-flex border-bottom p-3 mb-3 justify-content-between align-items-center">
+      <Menu />
       <Link to="/">
         <img
           width="40px"
@@ -25,7 +30,10 @@ const Header = () => {
 
       <h2>Transport CRM By Dmytro Tymchenko</h2>
 
-      <div className="cursor-pointer" onClick={() => dispatch(removeUser())}>
+      <div
+        className={email ? "cursor-pointer" : ""}
+        onClick={() => dispatch(removeUser())}
+      >
         <svg
           viewBox="0 0 24 24"
           xmlns="http://www.w3.org/2000/svg"

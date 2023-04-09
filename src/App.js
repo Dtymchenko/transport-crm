@@ -4,24 +4,29 @@ import { Route, Routes } from "react-router-dom";
 import MainPage from "./pages/MainPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import Menu from "./components/Menu";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import ForgotPassPage from "./pages/ForgotPassPage";
 
 function App() {
   return (
     <div className="app">
       <Header />
       <div className="content-wrapper">
-        <div className="menu">
-          <Menu />
-        </div>
+        <div className="menu">{/* <Menu /> */}</div>
         <div className="content">
           <Routes>
+            {/* For automatic appearence of all pages from folder src/pages to side menu, path should be same as filename, excluding "Page.js". For example if we have page named LoginPage, path should be login. */}
             <Route index element={<MainPage />} />
             {/* <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactsPage />} />
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path='/forgot' element={<ForgotPassPage/>}/> */}
+        
+        
+         */}
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignUpPage />} />
             <Route path="*" element={<NotFoundPage />} />
+            <Route path="/forgotpass" element={<ForgotPassPage />} />
           </Routes>
         </div>
       </div>
