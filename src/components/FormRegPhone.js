@@ -9,6 +9,7 @@ import { useDispatch } from "react-redux";
 import { setUser } from "./redux/slices/mainSlice";
 import { collection, doc, setDoc } from "firebase/firestore";
 import { db } from "../firebase";
+import { useNavigate } from "react-router-dom";
 
 const FormRegPhone = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const FormRegPhone = () => {
   const auth = getAuth();
   const usersCollection = collection(db, "users");
   const newDocRef = doc(usersCollection);
+  const navigate = useNavigate();
 
   const generateReCaptcha = () => {
     if (!window.recaptchaVerifier) {
@@ -76,6 +78,7 @@ const FormRegPhone = () => {
             role: "user",
           })
         );
+        navigate("/");
         setDoc(newDocRef, newData)
           .then(() => {
             console.log("Document successfully written!");

@@ -3,6 +3,7 @@ import FormRegAuth from "./FormRegAuth";
 import { setUser } from "./redux/slices/mainSlice";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import SignInNotEmail from "./SignInNotEmail";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const Login = () => {
   return (
     <div className="max-width-500 mx-auto">
       <FormRegAuth title="Login" handleClick={handleLogin} />
+      <SignInNotEmail/>
     </div>
   );
 };

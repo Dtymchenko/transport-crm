@@ -8,9 +8,10 @@ const Main = () => {
   const dispatch = useDispatch();
 
   const email = useSelector((state) => state.main?.email);
+  const phone = useSelector((state) => state.main?.phone);
   React.useEffect(() => {
     dispatch(getUser());
-  }, [email]);
+  }, [email, phone]);
 
   return (
     <>
@@ -19,7 +20,7 @@ const Main = () => {
         with founder email - goes to admin part. If not - regular, he can create
         trips. If not logged in - redirects to login page.
       </div>
-      {!!email ? (
+      {!!email || phone ? (
         email.toUpperCase() === founderEmail.toUpperCase() ? (
           <div className="text-center">Logged in as Admin</div>
         ) : (
