@@ -1,36 +1,37 @@
-import { useDispatch } from 'react-redux';
-import FormRegAuth from './FormRegAuth';
-import { setUser } from './redux/slices/mainSlice';
+import { useDispatch } from "react-redux";
+import FormRegAuth from "./FormRegAuth";
+import { setUser } from "./redux/slices/mainSlice";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-
-    const handleLogin = (email, password) => {
-        const auth = getAuth()
-        signInWithEmailAndPassword(auth, email, password)
-        .then(({user}) => {
-          dispatch(setUser({
-              email:user.email,
-              id: user.uid,
-              token: user.refreshToken
-          }))
-          navigate('/')
+  const handleLogin = (email, password) => {
+    const auth = getAuth();
+    signInWithEmailAndPassword(auth, email, password)
+      .then(({ user }) => {
+        dispatch(
+          setUser({
+            email: user.email,
+            id: user.uid,
+            token: user.refreshToken,
+          })
+        );
+        navigate("/");
       })
-      .catch(error => {
-        alert(error)
-        console.error(error)
-      })
-    }
+      .catch((error) => {
+        alert(error);
+        console.error(error);
+      });
+  };
 
   return (
-    <FormRegAuth
-    title='Login'
-    handleClick={handleLogin}/>
-  )
-}
+    <div className="max-width-500 mx-auto">
+      <FormRegAuth title="Login" handleClick={handleLogin} />
+    </div>
+  );
+};
 
-export default Login
+export default Login;

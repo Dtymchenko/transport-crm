@@ -13,7 +13,7 @@ const FormRegAuth = ({ title, handleClick }) => {
 
   return (
     <div>
-      <h1>{title}</h1>
+      <h1 className="text-center">{title}</h1>
       <Form onSubmit={handleSubmit} className="mb-2">
         <Form.Group>
           <label htmlFor="exampleInputEmail1">Email address</label>
@@ -38,12 +38,13 @@ const FormRegAuth = ({ title, handleClick }) => {
             onChange={(e) => setPass(e.target.value)}
           />
         </Form.Group>
-        <Form.Group></Form.Group>
-        <Button primary type="submit">
-          Submit
-        </Button>
+        <Form.Group className="d-flex">
+          <Button primary type="submit" className="mx-auto">
+            Submit
+          </Button>
+        </Form.Group>
       </Form>
-      <div>
+      <div className="d-flex flex-column align-items-center">
         <p>
           Forgot password?{" "}
           <button>

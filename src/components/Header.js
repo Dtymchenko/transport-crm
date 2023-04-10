@@ -6,18 +6,21 @@ import Menu from "./Menu";
 
 const Header = () => {
   const [email, setEmail] = React.useState(null);
+  const [phone, setPhone] = React.useState(null);
 
   const dispatch = useDispatch();
 
   const getEmail = useSelector((state) => state.main?.email);
+  const getPhone = useSelector((state) => state.main?.phone);
 
   React.useEffect(() => {
     setEmail(getEmail);
-  }, [getEmail]);
+    setPhone(getPhone);
+  }, [getEmail, getPhone]);
 
   return (
     <header className="d-flex border-bottom p-3 mb-3 justify-content-between align-items-center">
-      <Menu />
+      {email || phone ? <Menu /> : null}
       <Link to="/">
         <img
           width="40px"
@@ -31,7 +34,7 @@ const Header = () => {
       <h2>Transport CRM By Dmytro Tymchenko</h2>
 
       <div
-        className={email ? "cursor-pointer" : ""}
+        className={email || phone ? "cursor-pointer" : ""}
         onClick={() => dispatch(removeUser())}
       >
         <svg
@@ -50,6 +53,11 @@ const Header = () => {
           <span className="">
             Log out from <br />
             {email}
+          </span>
+        ) : phone ? (
+          <span className="">
+            Log out from <br />
+            {phone}
           </span>
         ) : null}
       </div>

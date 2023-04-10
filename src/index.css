@@ -21,3 +21,11 @@ code {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.max-width-500 {
+  max-width: 500px;
+}
+
+.width-180 {
+  width: 180px;
+}
