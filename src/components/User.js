@@ -24,7 +24,7 @@ const User = ({ user }) => {
   };
 
   return (
-    <div className="d-flex flex-column align-items-center border border-primary flex-grow-0 flex-shrink-0 flex-basis-30">
+    <div className="d-flex flex-column align-items-center border border-primary flex-grow-0 flex-shrink-0 flex-basis-30 flex-container-item">
       <div>Email: {user.email}</div>
       <div>Phone: {user.phone}</div>
       <div>

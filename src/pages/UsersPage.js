@@ -29,7 +29,7 @@ const UsersPage = () => {
   }, []);
 
   return (
-    <div className="d-flex justify-content-between flex-wrap gap-2 p-2">
+    <div className="flex-container-for-items d-flex justify-content-between flex-wrap gap-2 p-2">
       {email?.toUpperCase() === founderEmail.toUpperCase() ? (
         users?.map((user) => <User key={user.id} user={user} />)
       ) : (
