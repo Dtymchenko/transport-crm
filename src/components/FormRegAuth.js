@@ -55,23 +55,23 @@ const FormRegAuth = ({ title, handleClick }) => {
       <div className="d-flex flex-column align-items-center">
         <p>
           Forgot password?{" "}
-          <button>
-            <Link to="/forgotpass">Click here</Link>
-          </button>
+          <Link to="/forgotpass">
+            <Button primary>Click here</Button>
+          </Link>
         </p>
         {window.location.pathname === "/login" ? (
           <p>
             Do not have an account yet?{" "}
-            <button>
-              <Link to="/signup">Register</Link>
-            </button>
+            <Link to="/signup">
+              <Button primary>Register</Button>
+            </Link>
           </p>
         ) : (
           <p>
             Already have an account?{" "}
-            <button>
-              <Link to="/login">Sign in</Link>
-            </button>
+            <Link to="/login">
+              <Button primary>Sign in</Button>
+            </Link>
           </p>
         )}
       </div>

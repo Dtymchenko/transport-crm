@@ -126,7 +126,11 @@ const FormRegPhone = () => {
             onChange={handlePhoneNumberChange}
           />
         </Form.Group>
-        <Button className="width-180" primary disabled={userEmail || userPhone}>
+        <Button
+          className="width-180 p-1"
+          primary
+          disabled={userEmail || userPhone}
+        >
           Send Verification Code
         </Button>
       </Form>
