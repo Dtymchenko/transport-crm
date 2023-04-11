@@ -2,7 +2,7 @@
   "name": "crm-transport",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://github.com/Dtymchenko/Dtymchenko.github.io/#",
+  "homepage": "https://dtymchenko.github.io/",
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "@testing-library/jest-dom": "^5.16.5",
