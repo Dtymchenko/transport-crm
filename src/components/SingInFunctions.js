@@ -8,7 +8,14 @@ import {
 import { useDispatch } from "react-redux";
 import { setUser } from "./redux/slices/mainSlice";
 import { useNavigate } from "react-router-dom";
-import { collection, doc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  setDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { founderEmail } from "../data";
 
@@ -18,7 +25,7 @@ const SignInFunctions = () => {
   const navigate = useNavigate();
   const usersCollection = collection(db, "users");
   const newDocRef = doc(usersCollection);
-  
+
   const handleEmailRegister = (email, password) => {
     let newData = {};
     createUserWithEmailAndPassword(auth, email, password)
@@ -55,10 +62,10 @@ const SignInFunctions = () => {
       });
   };
 
-  const handleGoogleRegister = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-      .then(({ user }) => {
+  const handleGoogleRegister = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      signInWithPopup(auth, provider).then(async ({ user }) => {
         let newData = {
           email: user.email,
           phone: "",
@@ -75,24 +82,31 @@ const SignInFunctions = () => {
           })
         );
         navigate("/");
-        setDoc(newDocRef, newData)
-          .then(() => {
-            console.log("Document successfully written!");
-          })
-          .catch((error) => {
-            console.error("Error writing document: ", error);
-          });
-      })
-      .catch((error) => {
-        alert(error);
-        console.error(error);
+        const emailQuery = query(
+          usersCollection,
+          where("email", "==", user.email)
+        );
+        const emailSnapshot = await getDocs(emailQuery);
+        if (emailSnapshot.docs.length === 0) {
+          setDoc(newDocRef, newData)
+            .then(() => {
+              console.log("Document successfully written!");
+            })
+            .catch((error) => {
+              console.error("Error writing document: ", error);
+            });
+        }
       });
+    } catch (error) {
+      alert(error);
+      console.error(error);
+    }
   };
 
-  const handleFacebookRegister = () => {
-    const provider = new FacebookAuthProvider();
-    signInWithPopup(auth, provider)
-      .then(({ user }) => {
+  const handleFacebookRegister = async () => {
+    try {
+      const provider = new FacebookAuthProvider();
+      signInWithPopup(auth, provider).then(async ({ user }) => {
         let newData = {
           email: user.email,
           phone: "",
@@ -109,20 +123,27 @@ const SignInFunctions = () => {
           })
         );
         navigate("/");
-        setDoc(newDocRef, newData)
-          .then(() => {
-            console.log("Document successfully written!");
-          })
-          .catch((error) => {
-            console.error("Error writing document: ", error);
-            alert("Error writing document: ", error);
-          });
-      })
-      .catch((error) => {
-        alert(error);
-        console.error(error);
+        const emailQuery = query(
+          usersCollection,
+          where("email", "==", user.email)
+        );
+        const emailSnapshot = await getDocs(emailQuery);
+        if (emailSnapshot.docs.length === 0) {
+          setDoc(newDocRef, newData)
+            .then(() => {
+              console.log("Document successfully written!");
+            })
+            .catch((error) => {
+              console.error("Error writing document: ", error);
+            });
+        }
       });
+    } catch (error) {
+      alert(error);
+      console.error(error);
+    }
   };
+
   return { handleEmailRegister, handleGoogleRegister, handleFacebookRegister };
 };
 export default SignInFunctions;

@@ -1,10 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Form, Button } from "bootstrap-4-react";
+import { useSelector } from "react-redux";
 
 const FormRegAuth = ({ title, handleClick }) => {
   const [email, setEmail] = React.useState("");
   const [pass, setPass] = React.useState("");
+  const userEmail = useSelector((state) => state.main?.email);
+  const userPhone = useSelector((state) => state.main?.phone);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -39,7 +42,12 @@ const FormRegAuth = ({ title, handleClick }) => {
           />
         </Form.Group>
         <Form.Group className="d-flex">
-          <Button primary type="submit" className="mx-auto">
+          <Button
+            primary
+            type="submit"
+            disabled={userEmail || userPhone}
+            className="mx-auto"
+          >
             Submit
           </Button>
         </Form.Group>

@@ -8,9 +8,9 @@ import SignInNotEmail from "./SignInNotEmail";
 const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const auth = getAuth();
 
   const handleLogin = (email, password) => {
-    const auth = getAuth();
     signInWithEmailAndPassword(auth, email, password)
       .then(({ user }) => {
         dispatch(
@@ -31,7 +31,7 @@ const Login = () => {
   return (
     <div className="max-width-500 mx-auto">
       <FormRegAuth title="Login" handleClick={handleLogin} />
-      <SignInNotEmail/>
+      <SignInNotEmail />
     </div>
   );
 };

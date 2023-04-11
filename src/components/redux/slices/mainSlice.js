@@ -1,13 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  // email: null,
-  email: localStorage.getItem('email'),
-  phone: localStorage.getItem('phone'),
-  role: localStorage.getItem('role'),
-  token: localStorage.getItem('token'),
-  id: localStorage.getItem('id'),
-  menuOpen: false,
+  email: localStorage.getItem("email"),
+  phone: localStorage.getItem("phone"),
+  role: localStorage.getItem("role"),
+  token: localStorage.getItem("token"),
+  id: localStorage.getItem("id"),
 };
 
 export const mainSlice = createSlice({
@@ -41,16 +39,9 @@ export const mainSlice = createSlice({
       state.id = null;
       localStorage.clear();
     },
-    setMenuOpen(state, action) {
-      state.menuOpen = action.payload;
-    },
-    setFounder(state, action) {
-      state.isFounder = action.payload;
-    },
   },
 });
 
-export const { setUser, getUser, removeUser, setMenuOpen, setFounder } =
-  mainSlice.actions;
+export const { setUser, getUser, removeUser } = mainSlice.actions;
 
 export default mainSlice.reducer;

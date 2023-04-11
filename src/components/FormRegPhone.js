@@ -7,12 +7,22 @@ import {
 import { Form, Button } from "bootstrap-4-react";
 import { useDispatch } from "react-redux";
 import { setUser } from "./redux/slices/mainSlice";
-import { collection, doc, setDoc } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  setDoc,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const FormRegPhone = () => {
   const dispatch = useDispatch();
+  const userEmail = useSelector((state) => state.main?.email);
+  const userPhone = useSelector((state) => state.main?.phone);
   const [phoneNumber, setPhoneNumber] = useState("");
   const [verificationCode, setVerificationCode] = useState("");
   const auth = getAuth();
@@ -52,16 +62,16 @@ const FormRegPhone = () => {
         window.confirmationResult = confirmationResult;
       })
       .catch((error) => {
+        alert(error);
         console.error(error);
       });
   };
 
-  const handleSignInClick = (e) => {
+  const handleSignInClick = async (e) => {
     e.preventDefault();
-    const confirmationResult = window.confirmationResult;
-    confirmationResult
-      .confirm(verificationCode)
-      .then((result) => {
+    try {
+      const confirmationResult = window.confirmationResult;
+      confirmationResult.confirm(verificationCode).then(async (result) => {
         const user = result.user;
         let newData = {
           email: "",
@@ -79,19 +89,26 @@ const FormRegPhone = () => {
           })
         );
         navigate("/");
-        setDoc(newDocRef, newData)
-          .then(() => {
-            console.log("Document successfully written!");
-          })
-          .catch((error) => {
-            console.error("Error writing document: ", error);
-            alert("Error writing document: ", error);
-          });
-      })
-      .catch((error) => {
-        console.log(error);
-        alert(error);
+        const emailQuery = query(
+          usersCollection,
+          where("phone", "==", user.reloadUserInfo.phoneNumber)
+        );
+        const emailSnapshot = await getDocs(emailQuery);
+        if (emailSnapshot.docs.length === 0) {
+          setDoc(newDocRef, newData)
+            .then(() => {
+              console.log("Document successfully written!");
+            })
+            .catch((error) => {
+              alert(error);
+              console.error("Error writing document: ", error);
+            });
+        }
       });
+    } catch (error) {
+      alert(error);
+      console.error(error);
+    }
   };
 
   return (
@@ -109,14 +126,9 @@ const FormRegPhone = () => {
             onChange={handlePhoneNumberChange}
           />
         </Form.Group>
-        <Button
-          className="width-180"
-          primary
-          // onClick={handleSendCodeClick}
-        >
+        <Button className="width-180" primary disabled={userEmail || userPhone}>
           Send Verification Code
         </Button>
-        {/* </Form.Group> */}
       </Form>
       <Form
         onSubmit={handleSignInClick}
@@ -134,28 +146,12 @@ const FormRegPhone = () => {
           <Button
             className="width-180"
             primary
-            // onClick={handleSignInClick}
+            disabled={userEmail || userPhone}
           >
             Sign In
           </Button>
         </Form.Group>
       </Form>
-      {/* <label htmlFor="phone-number">Phone Number:</label>
-      <input
-        id="phone-number"
-        type="tel"
-        value={phoneNumber}
-        onChange={handlePhoneNumberChange}
-      />
-      <button onClick={handleSendCodeClick}>Send Verification Code</button> */}
-      {/* <label htmlFor="verification-code">Verification Code:</label>
-      <input
-        id="verification-code"
-        type="tel"
-        value={verificationCode}
-        onChange={handleVerificationCodeChange}
-      />
-      <button onClick={handleSignInClick}>Sign In</button> */}
       <div id="recaptcha-container"></div>
     </div>
   );

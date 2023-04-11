@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUser } from "./redux/slices/mainSlice";
 import { founderEmail } from "../data";
+import CreateTrip from "./CreateTrip";
 
 const Main = () => {
   const dispatch = useDispatch();
@@ -22,9 +23,13 @@ const Main = () => {
       </div>
       {!!email || phone ? (
         email.toUpperCase() === founderEmail.toUpperCase() ? (
-          <div className="text-center">Logged in as Admin</div>
+          <div className="text-center">
+            Logged in as Admin <CreateTrip />
+          </div>
         ) : (
-          <div className="text-center">Logged in as not Admin</div>
+          <div className="text-center">
+            Logged in as not Admin <CreateTrip />
+          </div>
         )
       ) : (
         <Navigate to="/login" />
